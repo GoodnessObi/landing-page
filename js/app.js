@@ -13,30 +13,13 @@
  * 
 */
 
-/**
- * Define Global Variables
- * 
-*/
 const sections = document.querySelectorAll('section');
-// const sections = document.getElementsByTagName('section');
-// console.log(sections)
-
-/**
- * End Global Variables
- * Start Helper Functions
- * 
-*/
+const headings = document.querySelectorAll('h2');
+let isScrolling;
 
 
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
-// build the nav
 const navbarList = document.querySelector('#navbar__list');
+// Build menu 
 const fragment = document.createDocumentFragment();
 for (let i = 0; i < sections.length; i++) {
   const listItem = document.createElement('li');
@@ -48,6 +31,7 @@ for (let i = 0; i < sections.length; i++) {
   listItem.appendChild(menuLink);
   fragment.appendChild(listItem);
 }
+// build the nav
 navbarList.appendChild(fragment);
 
 
@@ -55,14 +39,13 @@ navbarList.appendChild(fragment);
 const menuLinks = document.querySelectorAll('.menu__link');
 const scrollUp = document.querySelector('.scroll-to-top');
 const navBar = document.querySelector('.page__header');
-// console.log(menuLinks);
-let lastId;
-let curId = [];
+
 
 window.addEventListener("scroll", (e) => {
   let fromTop = window.scrollY;
-  console.log(fromTop)
 
+  //scroll to section on link click
+  //set sections as active
   menuLinks.forEach(link => {
     let section = document.querySelector(link.hash);
 
@@ -70,7 +53,9 @@ window.addEventListener("scroll", (e) => {
       section.offsetTop <= fromTop &&
       section.offsetTop + section.offsetHeight > fromTop
     ) {
+      // Scroll to section on link click
       link.classList.add('active');
+      // Set sections as active
       section.classList.add('your-active-class')
     } else {
       link.classList.remove('active');
@@ -78,16 +63,27 @@ window.addEventListener("scroll", (e) => {
     }
   })
 
+  //Make scroll-up arrow visible when scrollY > 100
   if (fromTop > 100) {
     scrollUp.classList.add('show');
   } else {
     scrollUp.classList.remove('show');
+    //Make navbar visible when scrollY < 100
     navBar.classList.remove('no-scroll');
   }
   navBar.classList.remove('no-scroll');
+
+  //Hide Navbar when no scroll occurs in 3secs
+  window.clearTimeout( isScrolling );
+
+	isScrolling = setTimeout(function() {
+    if (fromTop > 100) {
+      navBar.classList.add('no-scroll');
+    }
+	}, 3000);
 });
 
-// Scroll to anchor ID using scrollTO event
+// Attach scrollTo function to each menuLink
 menuLinks.forEach(menuLink => {
   menuLink.onclick = function(e) {
     e.preventDefault();
@@ -95,14 +91,41 @@ menuLinks.forEach(menuLink => {
   };
 });
 
-/**
- * End Main Functions
- * Begin Events
- * 
-*/
+//collapsible learn-more button
+document.querySelector('.learn-more').addEventListener('click', function() {
+  document.querySelector('.our-team').classList.toggle('show');
+})
+
+//make each section collapsible on clicking h2
+headings.forEach (heading => {
+  let siblings = [];
+  let nextSibling = heading.nextElementSibling;
+  let section = heading.parentElement.parentElement;
+
+  while (nextSibling) {
+    siblings.push(nextSibling);
+    nextSibling = nextSibling.nextElementSibling;
+  }
+
+  heading.addEventListener('click', () => {
+    siblings.forEach(sibling => {
+      sibling.classList.toggle('hide');
+    })
+    section.classList.toggle('reduce-height');
+  })
+})
+
+//Scroll to top
+scrollUp.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+})
+
+//Scroll to anchor ID using scrollTO event
 function smoothScroll(link) {
   let hash = link.getAttribute('href');
-  console.log(hash);
   let target = document.querySelector(hash);
   let headerOffset = 0;
   let elementPosition = target.offsetTop;
@@ -113,43 +136,3 @@ function smoothScroll(link) {
       behavior: "smooth"
   });
 }
-
-document.querySelector('.learn-more').addEventListener('click', function() {
-  document.querySelector('.our-team').classList.toggle('show');
-})
-
-// Build menu 
-
-
-
-// Scroll to section on link click
-
-// Set sections as active
-
-//Scroll to top
-
-scrollUp.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-})
-
-// Setup isScrolling variable
-var isScrolling;
-
-// Listen for scroll events
-window.addEventListener('scroll', function ( event ) {
-	// Clear our timeout throughout the scroll
-  window.clearTimeout( isScrolling );
-  
-	// Set a timeout to run after scrolling ends
-	isScrolling = setTimeout(function() {
-  let fromTop = window.scrollY;
-  console.log( 'Scrolling has stopped.' );
-    if (fromTop > 100) {
-      navBar.classList.add('no-scroll');
-    }
-		// Run the callback
-	}, 1000);
-});

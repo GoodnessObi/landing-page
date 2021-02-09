@@ -38,6 +38,12 @@ h2 {
     font-family: 'Oxygen', Sans-Serif;
     font-size: 3em;
     color: #fff;
+    cursor: pointer;
+    transform: scale(0.98);
+}
+
+h2:hover {
+    transform: scale(1);
 }
 
 h3 {
@@ -66,7 +72,6 @@ section {
     position: relative;
     min-height: 80vh;
 }
-
 
 /* ---- Module Rules ---- */
 
@@ -284,4 +289,15 @@ section.your-active-class .landing__container::after {
 
 .scroll-to-top:hover {
     transform: scale(1.1);
+}
+
+section.reduce-height {
+    min-height: 0;
+    transition: min-height 0.5s all;
+}
+
+.hide {
+    opacity: 0;
+    height: 0;
+    transition: opacity 0.3s all;
 }
