@@ -40,6 +40,13 @@ h2 {
     color: #fff;
 }
 
+h3 {
+    /* border-bottom: 1px solid #cc1; */
+    font-family: 'Oxygen', Sans-Serif;
+    font-size: 2em;
+    color: #fff;
+}
+
 p {
     line-height: 1.6em;
     color: #eee;
@@ -89,6 +96,12 @@ section {
     transition: ease 0.3s all;
 }
 
+.navbar__menu .menu__link.active {
+    background: #333;
+    color:#cc1;
+    transition: ease 0.3s all;
+}
+
 /* Header Styles */
 .page__header {
     background: #fff;
@@ -96,6 +109,12 @@ section {
     top: 0;
     width: 100%;
     z-index: 5;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.page__header.no-scroll {
+    opacity: 0;
 }
 
 /* Footer Styles */
@@ -221,4 +240,48 @@ section.your-active-class .landing__container::after {
 		           translate(-1em) 
 		           rotate(-360deg);
 	}
+}
+
+.landing__container.collapse {
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1);
+    opacity: 0;
+    padding-top: 0;
+    margin-top: -4em;
+    transition: max-height .5s ease-in-out;
+}
+
+.landing__container.collapse.show {
+    max-height: 100vh;
+    opacity: 1;
+    transition: opacity 0.3s all;
+}
+
+.learn-more {
+    padding: 0.5em 1em;
+    font-size: 1.2em;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin: 2em 0;
+}
+
+.scroll-to-top {
+    font-size: 3em;
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.scroll-to-top.show {
+    opacity: 1;
+}
+
+.scroll-to-top:hover {
+    transform: scale(1.1);
 }
