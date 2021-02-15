@@ -1,6 +1,7 @@
 # Landing Page
 
 Project #2 for the Udacity Frontend Web Developer Nanodegree
+This project is a multisection landing page with a dynamically updating navigational menu based on the amount of content that is added to the page
 
 ## Requirements
 * HTML should have at least 3 sections
